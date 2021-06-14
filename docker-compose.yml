@@ -1,0 +1,31 @@
+version : "3"
+services:
+    nginx:
+        image: nginx:stable-alpine
+        ports:
+            - "3000:80"
+        volumes: 
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+        
+    nodejsd:
+        build: .
+        volumes:
+            - ./:/app
+            - /app/node_modules
+        environment:
+            - PORT=3000
+
+    mongo:
+        image: mongo
+        environment: 
+                - MONGO_INITDB_ROOT_USERNAME=timmy
+                - MONGO_INITDB_ROOT_PASSWORD=password
+        volumes: 
+            - mongodb:/data/db
+
+    redis:
+        image: redis
+
+volumes: 
+    mongodb:
+   
